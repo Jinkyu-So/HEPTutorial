@@ -1,0 +1,25 @@
+OBJECT_DEFS = [
+    {"prefix": "GoodMuon", "count_name": "nGoodMuon",
+     "cut": "Muon_pt_Roc > 30 && abs(Muon_eta) < 2.4 && Muon_tightId == 1 && Muon_pfIsoId >= 4",
+     "branches": {"pt": "Muon_pt_Roc", "eta": "Muon_eta", "phi": "Muon_phi",
+                  "iso": "Muon_pfIsoId", "mass": "Muon_mass", "charge": "Muon_charge"}},
+    {"prefix": "LooseMuon", "count_name": None,   # mask만 필요, count/branch 없음
+     "cut": "Muon_pt_Roc > 10 && abs(Muon_eta) < 2.4 && Muon_looseId == 1 && Muon_pfIsoId >= 2",
+     "branches": {}},
+    {"prefix": "ExtraLooseMuon", "count_name": "nExtraLooseMuon",
+     "cut": "LooseMuon_Mask && !GoodMuon_Mask", "branches": {}},
+    ...
+    {"prefix": "loose_bJet", "count_name": "loose_nbJet",
+     "cut": "Jet_pt_JEC > 30 && abs(Jet_eta) < 2.4 && Jet_jetId == 6 && (Jet_pt_JEC >= 50 || Jet_puId >= 4) && Jet_btagDeepFlavB >= 0.0490",
+     "branches": {"pt": "Jet_pt_JEC", "eta": "Jet_eta", "phi": "Jet_phi"}},
+    ...
+]
+
+def define_objects(df, tree_name):
+    for spec in OBJECT_DEFS:
+        df = df.Define(f"{spec['prefix']}_Mask", spec["cut"])
+        if spec["count_name"]:
+            df = df.Define(spec["count_name"], f"Sum({spec['prefix']}_Mask)")
+        for suffix, src in spec["branches"].items():
+            df = df.Define(f"{spec['prefix']}_{suffix}", f"{src}[{spec['prefix']}_Mask]")
+    return df
