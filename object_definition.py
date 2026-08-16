@@ -1,10 +1,9 @@
-####################################################################################
 
 def define_objects(df, tree_name):
 
     ##### muons are defined using Rochester-corrected pt #####
     df = df.Define("GoodMuon_Mask",
-                "Muon_pt_Roc > 30 && abs(Muon_eta) < 2.4 && Muon_tightId == 1 && Muon_pfIsoId >= 4")
+        "Muon_pt_Roc > 30 && abs(Muon_eta) < 2.4 && Muon_tightId == 1 && Muon_pfIsoId >= 4")
     df = df.Define("nGoodMuon", "Sum(GoodMuon_Mask)")
     df = df.Define("GoodMuon_pt",  "Muon_pt_Roc[GoodMuon_Mask]")
     df = df.Define("GoodMuon_eta", "Muon_eta[GoodMuon_Mask]")
@@ -14,12 +13,11 @@ def define_objects(df, tree_name):
     df = df.Define("GoodMuon_charge", "Muon_charge[GoodMuon_Mask]")
 
     df = df.Define("LooseMuon_Mask",
-                "Muon_pt_Roc > 10 && abs(Muon_eta) < 2.4 && Muon_looseId == 1 && Muon_pfIsoId >= 2")
+        "Muon_pt_Roc > 10 && abs(Muon_eta) < 2.4 && Muon_looseId == 1 && Muon_pfIsoId >= 2")
     df = df.Define("ExtraLooseMuon_Mask", "LooseMuon_Mask && !GoodMuon_Mask")
     df = df.Define("nExtraLooseMuon", "Sum(ExtraLooseMuon_Mask)")
 
-    df = df.Define(
-        "GoodJet_Mask",
+    df = df.Define("GoodJet_Mask",
         "Jet_pt_JEC > 30 && abs(Jet_eta) < 2.4 && Jet_jetId == 6 && (Jet_pt_JEC >= 50 || Jet_puId >= 4)")
     df = df.Define("GoodJet_pt", "Jet_pt_JEC[GoodJet_Mask]")
     df = df.Define("GoodJet_eta", "Jet_eta[GoodJet_Mask]")
@@ -29,7 +27,7 @@ def define_objects(df, tree_name):
     df = df.Define("GoodJet_mass", "Jet_mass_JEC[GoodJet_Mask]")
 
     df = df.Define("LooseElectron_Mask",
-                "Electron_pt > 15 && Electron_cutBased >= 2") # check pt, eta and iso
+        "Electron_pt > 15 && Electron_cutBased >= 2") # check pt, eta and iso
     df = df.Define("nLooseElectron", "Sum(LooseElectron_Mask)")
     df = df.Define("LooseElectron_pt", "Electron_pt[LooseElectron_Mask]")
     df = df.Define("LooseElectron_eta", "Electron_eta[LooseElectron_Mask]")
@@ -60,5 +58,3 @@ def define_objects(df, tree_name):
     df = df.Define("tight_bJet_phi", "Jet_phi[tight_bJet_Mask]")
 
     return df
-
-####################################################################################
