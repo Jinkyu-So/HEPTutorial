@@ -1,14 +1,10 @@
 import ROOT
 
-
 ############ need to replace TopRecoHelper ##############
 ROOT.gInterpreter.Declare('#include "TopRecoHelper.h"')
 
-
 from object_definition import define_objects
 from event_selection import applycuts_semileptonic, applycuts_dileptonic
-
-
 
 def get_objects():
     return{
@@ -275,18 +271,3 @@ def get_objects():
 
     }
 
-####################################################################################
-
-samples_config_semileptonic = {
-    "Data":  ["run2018A_GLegacy_SingleMuon.root", "Data", ROOT.kBlack, True, 188.09],
-    "TTbar": ["TTbar.root", "t#bar{t}", ROOT.kOrange-3, False, 100.0],
-    "QCD":   ["QCD.root", "QCD Multi-jet", ROOT.kAzure+7, False, 100.0],
-    "ST":    ["ST.root", "Single Top", ROOT.kRed-9, False, 100.0],
-    "DY":    ["DY.root", "Drell-Yan", ROOT.kSpring+5, False, 100.0],
-    "WJets": ["WJets.root", "W+Jets", ROOT.kGreen-3, False, 100.0],
-    "WW":    ["WW.root", "WW", ROOT.kYellow-7, False, 100.0],
-    "WZ":    ["WZ.root", "WZ", ROOT.kYellow-6, False, 100.0],
-    "ZZ":    ["ZZ.root", "ZZ", ROOT.kYellow-5, False, 100.0],
-}
-
-####################################################################################
