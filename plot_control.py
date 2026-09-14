@@ -1,12 +1,17 @@
+import os
+
 import ROOT
 
 
 ############ need to replace TopRecoHelper ##############
-ROOT.gInterpreter.Declare('#include "TopRecoHelper.h"')
+# Declared with an absolute path so this still works when scripts are run
+# from outside this directory (e.g. orchestrator.py from the repo root).
+_THIS_DIR = os.path.dirname(os.path.abspath(__file__))
+ROOT.gInterpreter.Declare(f'#include "{os.path.join(_THIS_DIR, "TopRecoHelper.h")}"')
 
 
 from object_definition import define_objects
-from event_selection import applycuts_semileptonic, applycuts_dileptonic
+from event_selection import applycuts_semileptonic
 
 
 
@@ -206,13 +211,6 @@ def get_objects():
 
 #########################   Global Objects   ################################
 
-        "nPV": {
-            "variable": "PV_npvs",
-            "title": "Number of Primary Vertices",
-            "bins": [80, 0, 80],
-            "xlabel": "Number of Primary Vertices"
-        },
-
         "HT": {
             "variable": "nGoodJet >= 1 ? Sum(GoodJet_pt) : -999",
             "title": "Scalar Sum of Jet p_{T}",
@@ -278,7 +276,7 @@ def get_objects():
 ####################################################################################
 
 samples_config_semileptonic = {
-    "Data":  ["run2018A_GLegacy_SingleMuon.root", "Data", ROOT.kBlack, True, 188.09],
+    "Data":  ["Data.root", "Data", ROOT.kBlack, True, 188.09],
     "TTbar": ["TTbar.root", "t#bar{t}", ROOT.kOrange-3, False, 100.0],
     "QCD":   ["QCD.root", "QCD Multi-jet", ROOT.kAzure+7, False, 100.0],
     "ST":    ["ST.root", "Single Top", ROOT.kRed-9, False, 100.0],

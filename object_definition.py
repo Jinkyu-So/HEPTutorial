@@ -1,6 +1,17 @@
 
 def define_objects(df, tree_name):
 
+    # This ntuple does not ship separately-named Rochester-corrected muon pt
+    # or JEC-corrected jet pt/mass branches, so alias the nominal branches
+    # under the names the cuts below expect.
+    existing_cols = set(df.GetColumnNames())
+    if "Muon_pt_Roc" not in existing_cols:
+        df = df.Define("Muon_pt_Roc", "Muon_pt")
+    if "Jet_pt_JEC" not in existing_cols:
+        df = df.Define("Jet_pt_JEC", "Jet_pt")
+    if "Jet_mass_JEC" not in existing_cols:
+        df = df.Define("Jet_mass_JEC", "Jet_mass")
+
     ##### muons are defined using Rochester-corrected pt #####
     df = df.Define("GoodMuon_Mask",
         "Muon_pt_Roc > 30 && abs(Muon_eta) < 2.4 && Muon_tightId == 1 && Muon_pfIsoId >= 4")

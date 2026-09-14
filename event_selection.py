@@ -5,8 +5,8 @@ def applycuts_semileptonic(df, selection):
     # default s0 : At least one good muon
     # s1 : extra lepton veto -> removes Drell-Yan, WZ, ZZ, dileptonic ttbar, leptonic ST, QCD-lep
     # s2 : jet multiplicity cut -> removes Wjets, QCD-had
-    # s3 : bjet requirement -> removes Wjets
-    # s4 : MET cut ?
+    # s3 : muon mvaTTH cut -> improves prompt-lepton purity
+    # s4 : tight b-jet requirement -> removes Wjets, single top
 
     df = df.Filter("nGoodMuon >= 1")
 
